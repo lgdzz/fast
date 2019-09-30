@@ -1,6 +1,6 @@
 <?php
 
-namespace lgdz\src;
+namespace lgdz;
 
 class Factory
 {
