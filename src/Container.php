@@ -6,10 +6,15 @@ class Container
 {
     protected static $instances = [];
 
-    public static function instance(string $class, array $vars = [], bool $newInstance = false)
+    public static function getInstances()
     {
-        if (is_null(self::$instances[$class]) || $newInstance) {
-            self::$instances[$class] = new $class($vars);
+        return self::$instances;
+    }
+
+    public static function instance(string $class, array $arguments = [], bool $newInstance = false)
+    {
+        if (!isset(self::$instances[$class]) || $newInstance) {
+            self::$instances[$class] = new $class(...$arguments);
         }
 
         return self::$instances[$class];
