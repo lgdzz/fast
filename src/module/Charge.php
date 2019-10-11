@@ -10,7 +10,7 @@ class Charge
 {
     public function __call($name, $arguments)
     {
-        $driver = '\lgdz\module\charge\\' . ucfirst($name);
-        return new $driver($arguments[0]);
+        $class = '\lgdz\module\charge\\' . ucfirst($name);
+        return new $class(...$arguments);
     }
 }

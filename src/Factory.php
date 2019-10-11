@@ -17,6 +17,7 @@ class Factory
 
     public function __call($name, $arguments)
     {
-        return Container::instance('\lgdz\module\\' . ucfirst($name), $arguments);
+        $class = '\lgdz\module\\' . ucfirst($name);
+        return new $class(...$arguments);
     }
 }
