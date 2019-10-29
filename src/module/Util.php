@@ -141,4 +141,30 @@ class Util
         $data = json_encode($data, JSON_UNESCAPED_UNICODE);
         return json_decode(strtolower(preg_replace('/([a-z])([A-Z])/', '$1' . $separator . '$2', $data)), true);
     }
+
+    public function rangeDate2Timestamp(array &$params, string $start = 'startTime', string $end = 'endTime')
+    {
+        $startTime = isset($params[$start]) ? strtotime($params[$start]) : false;
+        $endTime   = isset($params[$end]) ? strtotime($params[$end]) : false;
+        if ($startTime > 0 && $endTime > 0 && $startTime <= $endTime) {
+            $params[$start] = $startTime;
+            $params[$end]   = $endTime + (24 * 60 * 60 - 1);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function rangeTime2Timestamp(array &$params, string $start = 'startTime', string $end = 'endTime')
+    {
+        $startTime = isset($params[$start]) ? strtotime($params[$start]) : false;
+        $endTime   = isset($params[$end]) ? strtotime($params[$end]) : false;
+        if ($startTime > 0 && $endTime > 0 && $startTime <= $endTime) {
+            $params[$start] = $startTime;
+            $params[$end]   = $endTime;
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
