@@ -4,6 +4,7 @@ namespace lgdz;
 
 /**
  * @property \lgdz\module\Util $util
+ * @property \lgdz\module\Tree $tree
  * @property \lgdz\module\Charge $charge
  * @property \lgdz\module\Sign $sign
  * @method \lgdz\module\Jwt jwt($publicKey, $privateKey)
