@@ -3,6 +3,7 @@
 namespace lgdz\module;
 
 use \Exception;
+use \Closure;
 
 class Util
 {
@@ -129,17 +130,34 @@ class Util
         return $value;
     }
 
-    public function buildCamelize(array $data, string $separator = '_'): array
+    public function buildCamelize($data, string $separator = '_')
     {
-        $data = json_encode($data, JSON_UNESCAPED_UNICODE);
-        $data = $separator . str_replace($separator, ' ', strtolower($data));
-        return json_decode(ltrim(str_replace(' ', '', ucwords($data)), $separator), true);
+        return $this->buildCamelizeConvert($data, $separator, function ($string, $separator) {
+            $string = ucwords(str_replace($separator, ' ', $string));
+            return str_replace(' ', '', lcfirst($string));
+        });
     }
 
-    public function buildUncamelize(array $data, string $separator = '_'): array
+    public function buildUncamelize($data, string $separator = '_')
     {
-        $data = json_encode($data, JSON_UNESCAPED_UNICODE);
-        return json_decode(strtolower(preg_replace('/([a-z])([A-Z])/', '$1' . $separator . '$2', $data)), true);
+        return $this->buildCamelizeConvert($data, $separator, function ($string, $separator) {
+            return strtolower(preg_replace('/([a-z])([A-Z])/', '$1' . $separator . '$2', $string));
+        });
+    }
+
+    private function buildCamelizeConvert($data, $separator, Closure $convert)
+    {
+        if (!is_array($data)) {
+            return $data;
+        } else {
+            $temp = [];
+            foreach ($data as $key => $value) {
+                $tempKey        = $convert($key, $separator);
+                $tempValue      = $this->buildCamelizeConvert($value, $separator, $convert);
+                $temp[$tempKey] = $tempValue;
+            }
+            return $temp;
+        }
     }
 
     public function rangeDate2Timestamp(array &$params, string $start = 'startTime', string $end = 'endTime')
