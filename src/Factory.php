@@ -7,6 +7,7 @@ namespace lgdz;
  * @property \lgdz\module\Tree $tree
  * @property \lgdz\module\Charge $charge
  * @property \lgdz\module\Sign $sign
+ * @property \lgdz\module\Http $http
  * @method \lgdz\module\Jwt jwt($publicKey, $privateKey)
  */
 class Factory
