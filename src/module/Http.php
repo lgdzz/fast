@@ -48,7 +48,7 @@ class Http
             $request($curl);
             $curl->close();
             if (!is_null($after)) {
-                return $after($curl->getResponse());
+                return $after($curl->getResponse(), $curl);
             } else {
                 return $curl->getResponse();
             }
